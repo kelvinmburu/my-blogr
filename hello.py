@@ -2,11 +2,37 @@ from flask import Flask, render_template, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 # Create a flask instance
 app = Flask(__name__)
+# Add database connection
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+# Secret key
 app.config['SECRET_KEY'] = "kigonyisecrit"
+# Initialize database connection
+db = SQLAlchemy(app)
+
+
+# Create users models
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Create a string representation
+    def __repr__(self):
+        return '<Name %r>' % self.name
+    
+    
+# Create a user form class
+class UserForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 # Create a form class
@@ -14,6 +40,11 @@ class NamerForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+
+@app.route('/user/add', methods=['GET', 'POST'])
+def add_user():
+    form = UserForm()
+    return render_template('add_user.html', form=form)
 
 # Create a route decorator
 @app.route("/")
