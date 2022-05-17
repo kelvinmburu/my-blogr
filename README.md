@@ -53,7 +53,7 @@ At a minimum, this is what the user should experience in the application:
 * The user can comment on blog posts
 * The user can receive an email alert when a new post is made by joining a subscription.
 * The user can create a blog from the application
-* THE user can update or delete blogs that he/she has created
+* THE user can update or delete blogs that he/she has created in the application.
 
 ## Project Contribution or Development:
 
