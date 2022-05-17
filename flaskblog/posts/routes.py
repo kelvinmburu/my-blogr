@@ -17,7 +17,7 @@ def new_post():
         db.session.commit()
         flash('Your blogpost has been created successfully!', 'success')
         return redirect(url_for('main.home'))
-    return render_template('create_post.html', title='New Post', form=form, legend='New Pitch')
+    return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
 @posts.route("/post/<int:post_id>")
 def post(post_id):
